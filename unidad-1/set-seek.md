@@ -14,7 +14,9 @@ En mi campo puedo aplicar la aleatoriedad cuando voy a elegir los colores podemo
 
 ### Actividad 3
 
-#### Realiza el siguiente experimento y reporta los resultados en tu bitácora:
+#### Caminatas aleatorias
+
+Realiza el siguiente experimento y reporta los resultados en tu bitácora:
 
 - Modifica el código del ejemplo Example 0.1: A Traditional Random Walk.
 - Antes de ejecutar el código, escribe en tu bitácora qué esperas que suceda.
@@ -23,7 +25,7 @@ En mi campo puedo aplicar la aleatoriedad cuando voy a elegir los colores podemo
    - Lo que paso en verdad es que si generó los 5 walks pero solo cambiaba de color cada vez que chocaba con la cabeza del otro walk no cada vez que tocaba otro color
 - Ocurrió lo que esperabas? ¿Por qué crees que sí o por qué crees que no?
    - parcialmente si funcionó pero hice el codigo para que cambiara el color cuando se encontrara con otro walk, no cuando encontrara otro color.
-### Codigo original:
+#### Codigo original:
 
 ```javascript
 // The Nature of Code
@@ -69,7 +71,7 @@ class Walker {
 }
 ```
 
-Codigo con cambios:
+#### Codigo con cambios:
 
 ```javascript
 let walkers = [];
@@ -145,4 +147,53 @@ class Walker {
 
 ### Actividad 4
 
+#### Distribuciones de probabilidad
 
+En tus propias palabras cuál es la diferencia entre una distribución uniforme y una no uniforme de números aleatorios.
+- La diferencia es que la distribucion uniforme tienen la misma aleatoriedad es decir la misma probabilidad para todas las diferentes opciones disponibles pero la no uniforme favorece mas a ciertas opciones especificas que tienen una probabilidad mas alta de ser escogidos.
+
+Modifica el código de la caminata aleatoria para que utilice una distribución no uniforme, favoreciendo el movimiento hacia la derecha.
+
+ ```javascript
+// The Nature of Code
+// Daniel Shiffman
+// http://natureofcode.com
+
+let walker;
+
+function setup() {
+  createCanvas(640, 240);
+  walker = new Walker();
+  background(255);
+}
+
+function draw() {
+  walker.step();
+  walker.show();
+}
+
+class Walker {
+  constructor() {
+    this.x = width / 2;
+    this.y = height / 2;
+  }
+
+  show() {
+    stroke(0);
+    point(this.x, this.y);
+  }
+
+  step() {
+    const choice = random( 10);
+    if (choice <=6) {
+      this.x++;
+    } else if (choice <= 7) {
+      this.x--;
+    } else if (choice <= 8) {
+      this.y++;
+    } else {
+      this.y--;
+    }
+  }
+}
+  ```

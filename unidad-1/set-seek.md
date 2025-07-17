@@ -21,7 +21,10 @@ En mi campo puedo aplicar la aleatoriedad cuando voy a elegir los colores podemo
 - Ejecuta el código y escribe en tu bitácora qué sucedió realmente.
 - Ocurrió lo que esperabas? ¿Por qué crees que sí o por qué crees que no?
 
-´// The Nature of Code
+### Codigo original:
+
+```javascript
+// The Nature of Code
 // Daniel Shiffman
 // http://natureofcode.com
 
@@ -62,4 +65,4 @@ class Walker {
     }
   }
 }
-´
+```

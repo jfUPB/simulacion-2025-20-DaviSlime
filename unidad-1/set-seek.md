@@ -3,7 +3,7 @@
 ## 🔎 Fase: Set + Seek
 
 ### Actividad 1
-El sistema aleatorio principalmente es una forma de hacer unica la experiencia que se realiza ya que despues de esa presentación la siguiente va a ser completamente diferente por lo que cada experiencia va a ser diferente y el arte generativo de cada presentación es unica para ese momento.
+El sistema aleatorio principalmente es una forma de hacer unica la experiencia.
 
 Frase: Cada obra es unica
 

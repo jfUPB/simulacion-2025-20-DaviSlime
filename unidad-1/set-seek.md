@@ -197,3 +197,188 @@ class Walker {
   }
 }
   ```
+
+### Actividad 5
+
+Una vez has entendido el concepto de distribución normal, vas a pensar en una nueva manera de visualizarlo.
+
+* Crea un nuevo sketch en p5.js que represente una distribución normal.
+* Copia el código en tu bitácora.
+* Coloca en enlace a tu sketch en p5.js en tu bitácora.
+* Selecciona una captura de pantalla de tu sketch y colócala en tu bitácora.
+
+```javascript
+let bins;
+let numBins = 60;
+let values = [];
+
+function setup() {
+  createCanvas(600, 400);
+  bins = new Array(numBins).fill(0);
+  background(255);
+}
+
+function draw() {
+  // Generar valores con distribución normal
+  let val = randomGaussian(width / 2, 60);
+  values.push(val);
+
+  // Llenar histogramas (barras)
+  let index = floor(map(val, 0, width, 0, numBins));
+  if (index >= 0 && index < numBins) {
+    bins[index]++;
+  }
+
+  // Dibujar fondo y ejes
+  background(255);
+  stroke(0);
+  fill(0);
+  textAlign(CENTER);
+  line(0, height - 20, width, height - 20); // eje x
+
+  // Dibujar barras
+  let barWidth = width / numBins;
+  for (let i = 0; i < bins.length; i++) {
+    let h = map(bins[i], 0, max(bins), 0, height - 50);
+    fill(100, 180, 255);
+    rect(i * barWidth, height - 20 - h, barWidth - 1, h);
+  }
+
+  // Detener cuando hay suficientes datos
+  if (values.length > 2000) {
+    noLoop();
+  }
+}
+
+```
+
+<img width="747" height="479" alt="image" src="https://github.com/user-attachments/assets/dd6d665f-2ad3-4c9d-8350-ce36c5c25bde" />
+
+
+Link p5.js: [https://editor.p5js.org/DaviSlime/sketches/0iFfuzHky](https://editor.p5js.org/DaviSlime/sketches/blwreXATH)
+
+### Actividad 6
+
+Ahora vas a:
+
+* Crea un nuevo sketch en p5.js donde modifiques uno de los ejemplos anteriores y adiciones de Lévy flight.
+* Explica por qué usaste esta técnica y qué resultados esberabas obtener.
+* Copia el código en tu bitácora.
+* Coloca en enlace a tu sketch en p5.js en tu bitácora.
+* Selecciona una captura de pantalla de tu sketch y colócala en tu bitácora.
+
+```javascript
+let binsNormal;
+let binsLevy;
+let numBins = 60;
+let valuesNormal = [];
+let valuesLevy = [];
+
+function setup() {
+  createCanvas(800, 400);
+  binsNormal = new Array(numBins).fill(0);
+  binsLevy = new Array(numBins).fill(0);
+  background(255);
+}
+
+function draw() {
+  // --- Distribución Normal
+  let valNormal = randomGaussian(width / 4, 40);
+  valuesNormal.push(valNormal);
+  let indexNormal = floor(map(valNormal, 0, width / 2, 0, numBins));
+  if (indexNormal >= 0 && indexNormal < numBins) {
+    binsNormal[indexNormal]++;
+  }
+
+  // --- Lévy Flight
+  let step = pow(random(1), -1.5); // potencia para hacer pasos largos ocasionalmente
+  let direction = random([1, -1]);
+  let valLevy = width * 0.75 + direction * step * 10;
+  valuesLevy.push(valLevy);
+  let indexLevy = floor(map(valLevy, width / 2, width, 0, numBins));
+  if (indexLevy >= 0 && indexLevy < numBins) {
+    binsLevy[indexLevy]++;
+  }
+
+  background(255);
+  stroke(0);
+  fill(0);
+  textAlign(CENTER);
+  text("Distribución Normal", width / 4, 20);
+  text("Lévy Flight", width * 0.75, 20);
+
+  // Dibujar histogramas
+  let barWidth = (width / 2) / numBins;
+
+  // Normal
+  for (let i = 0; i < binsNormal.length; i++) {
+    let h = map(binsNormal[i], 0, max(binsNormal), 0, height - 50);
+    fill(100, 180, 255);
+    rect(i * barWidth, height - 20 - h, barWidth - 1, h);
+  }
+
+  // Lévy
+  for (let i = 0; i < binsLevy.length; i++) {
+    let h = map(binsLevy[i], 0, max(binsLevy), 0, height - 50);
+    fill(255, 100, 150);
+    rect(width / 2 + i * barWidth, height - 20 - h, barWidth - 1, h);
+  }
+
+  // Detener cuando haya suficientes datos
+  if (valuesNormal.length > 2000 && valuesLevy.length > 2000) {
+    noLoop();
+  }
+}
+
+```
+<img width="911" height="471" alt="image" src="https://github.com/user-attachments/assets/537d692c-bad0-44a7-8c12-fac3c6120c09" />
+
+*P5.js:* https://editor.p5js.org/DaviSlime/sketches/0iFfuzHky
+
+
+Usé esta tecnica para comparar visualmente dos comportamientos de movimiento aleatorio:
+
+* El de la distribución normal (valores concentrados en el centro).
+
+* El de Lévy flight (valores con más dispersión, con saltos extremos).
+
+Quería mostrar que mientras la curva normal forma una campana simétrica, Lévy produce una distribución más ancha y con colas largas, reflejando una mayor probabilidad de eventos extremos
+
+### Actividad 7
+
+
+```javascript
+let yoff = 0;
+
+function setup() {
+  createCanvas(600, 400);
+  background(0);
+}
+
+function draw() {
+  background(0);
+  stroke(0, 255, 150); // Color verde brillante
+  strokeWeight(2);
+  noFill();
+
+  beginShape();
+  let xoff = 0;
+  for (let x = 0; x < width; x += 8) {
+    // Rango más amplio para vibración más agresiva
+    let y = map(noise(xoff, yoff), 0, 1, 50, 350);
+    vertex(x, y);
+    xoff += 0.15; // Mayor frecuencia = más picos por línea
+  }
+  endShape();
+
+  yoff += 0.05; // Mayor velocidad de cambio
+}
+
+```
+
+<img width="750" height="498" alt="image" src="https://github.com/user-attachments/assets/7bda9940-c28f-4c5d-8dae-56991ee399c1" />
+
+*P5.js:* https://editor.p5js.org/DaviSlime/sketches/zu3ULmc3Y
+
+Esperaba obtener una onda brusca que tuviera picos y cambios abruptos a lo largo del tiempo y que fuera verde
+

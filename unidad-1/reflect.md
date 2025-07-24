@@ -40,4 +40,48 @@
 
 ### Actividad 10
 
+#### Retroalimentación a Juana Vargas Ossa
 
+En general se aplican muy bien lois conceptos vistos en clase y esta bien estructurado directamente de lo que se pide en la actividad 8 cumple con todos los criterios Solo tengo una observacion breve
+
+En esta parte del codigo:
+```javascript
+function updateSnake1() {
+  let head = snake1[0].copy();
+  let target = createVector(mouseX, mouseY);
+
+  let dir = p5.Vector.sub(target, head);
+  let maxStep = 6; // Más rápida para esta serpiente
+  if (dir.mag() > maxStep) {
+    dir.setMag(maxStep);
+  }
+  snake1[0] = p5.Vector.add(head, dir);
+
+  for (let i = 1; i < len; i++) {
+    let prev = snake1[i - 1].copy();
+
+    let angleNoise = noise(prev.x * noiseScale1, prev.y * noiseScale1, t1 + i * 0.1);
+    let biasedNoise = pow(angleNoise, 3);
+    let angle = map(biasedNoise, 0, 1, -PI, PI);
+    let step = p5.Vector.fromAngle(angle).mult(5);
+    snake1[i] = p5.Vector.lerp(snake1[i], p5.Vector.add(prev, step), 0.5);
+  }
+```
+la inicializacion de las serpientes depende directamente de el movimiento del mouse si este no se mueve no tiene direccion eso se cambia muy sencillo entonces no me parece que reduzca la nota jeje.
+
+### Actividad 11
+
+#### Feedback
+
+- Continuar: ¿Qué actividad, ejemplo o explicación de esta unidad te resultó más reveladora o útil para tu aprendizaje? ¿Qué deberíamos mantener sí o sí?
+     *la actividad de las normales y distribucion uniforme y o uniforme creo que eso da pie a que se hagan muchas cosas con mun poco de imaginación.
+- Dejar de hacer: ¿Hubo alguna actividad o concepto que te pareció redundante, confuso o menos útil? ¿Hay algo que eliminarías o cambiarías por completo?
+     *siento que toda la unidad fue muy competa y creo que todos los conceptos eran necesarios me gustó. 
+- Empezar a hacer: ¿Qué te faltó en esta unidad? ¿Quizás más ejemplos de artistas, más desafíos técnicos, más teoría? ¿Qué idea tienes para hacerla mejor?
+     *yo creo que depronto en los ultimos dos conceptos que si eran un poco mas complejos seria mejor tener un video donde lo expliquen mas que solo un documento para leer.
+  
+- Balance Teoría-Práctica: ¿Cómo sentiste el equilibrio entre analizar los ejemplos del texto guía y ponerte a programar tus propios sketches? Explica tu respuesta.
+     *me gusta mucho es muy positivo y siento que entendí muy bien, ese equilibrio me hace sentir que si entendi los temas y me ayuda a saber cuales no entendi del todo y poderlos reforzar.
+  
+- Comentario Adicional: ¿Hay algo más que quieras compartir sobre tu experiencia en esta unidad?
+     *Fue muy interesante las diferentes formas de aleatoriedad que existen en el arte generativo y todo lo que se puede hacer con base en esto siento que esto se puede aplicar en muchas cosas me gustó mucho esta unidad          porque me hizo imaginarme muchas ideas locas de como usralo.

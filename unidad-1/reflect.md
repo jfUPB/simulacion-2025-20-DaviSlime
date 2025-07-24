@@ -4,7 +4,7 @@
 
 ### Actividad 9
 
-### Parte 1: recuperación de conocimiento (Retrieval Practice)
+#### Parte 1: recuperación de conocimiento (Retrieval Practice)
 
 - Describe la diferencia fundamental entre la aleatoriedad generada por random() y la apariencia de aleatoriedad del Ruido Perlin (noise()). ¿En qué tipo de situación usarías cada una?
     * la diferencia fundamental es que el random es una aleatoriedad pura es decir, todas las probabilidades tienen igual chance de salir y no dependen de nada externo cosa que si pasa con el noise que basicamente depende          del ruido que se haga y este afecta ligeramente el complonente aleatorio
@@ -22,14 +22,22 @@
     *un Walk en simulacion es la foma en la que dan saltos o pasos las distribuciones el tipo levy flight es un walk en el que hay una pequeña probabiliudad de dar un gran salto.
 
 
-  ### Parte 2: reflexión sobre tu proceso (Metacognición)
+  #### Parte 2: reflexión sobre tu proceso (Metacognición)
 
 - ¿Cuál fue el concepto más abstracto o difícil de “visualizar” para ti en esta unidad? ¿Qué hiciste para finalmente comprenderlo?
     *El Lévy flight me costomucho tiempo entenderlo y la forma en la que lo logre entender fue preguntando e investigando que era ademas de que lo trate de utilizar en la actividad 8 para saber si en verdad lo habia               entendido bien.
 
 - Describe un momento durante el desarrollo de tu obra final (Actividad 08) en el que un “error” o un resultado inesperado te llevó a una idea creativa interesante.
     *el error que tuve fue que podia pasar aun si tocaba las cuerdas ahi se me ocurrio hacer un sistema de vidas para empezar de nuevo, tambien puse el noise muy agresivo y eso mataba al jugador muy rapido entonces se me        dio la idea de que perlin tuviera un poco de movimiento para que fuera mas complicado
+  
 - Al combinar diferentes técnicas de aleatoriedad, ¿Cuál fue el mayor desafío? ¿La interacción entre los sistemas, el control de los parámetros, el rendimiento?
     *el mayor reto era combinar diferentes formas aleatorias y que se vieran como una sola pieza y no como cosas separadas
+  
 - Si tuvieras que empezar la Actividad 08 de nuevo, ¿Qué harías de manera diferente basándote en lo que sabes ahora?
     *lo que haria diferente seria aplicar de diferente manera la inmunidad y tambien el ruido de perlin
+
+
+
+### Actividad 10
+
+

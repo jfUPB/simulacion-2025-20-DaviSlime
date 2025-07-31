@@ -136,15 +136,38 @@ Cuando se pasa a la función playingVector(v), se modifica el mismo vector que e
 
 #### *¿Para qué sirve el método mag()? Nota que hay otro método llamado magSq(). ¿Cuál es la diferencia entre ambos? ¿Cuál es más eficiente?*
 
+El método mag() calcula la magnitud o longitud de un vector, es decir, qué tan largo es. Es como medir la distancia desde el origen hasta la posición del vector en el espacio. magSq() devuelve la magnitud al cuadrado del vector, sin calcular la raíz cuadrada. Es más eficiente que mag() porque evita una operación matemática costosa (la raíz cuadrada). Si solo necesitas comparar magnitudes (por ejemplo, para saber cuál vector es más largo), magSq() es preferible.
+
 #### *¿Para qué sirve el método normalize()?*
+
+normalize() convierte el vector en un vector unitario, es decir, un vector con la misma dirección pero con magnitud igual a 1. Esto es útil cuando te importa la dirección pero no la magnitud, como en movimientos o direcciones de fuerza.
 
 #### *Te encuentras con un periodista en la calle y te pregunta ¿Para qué sirve el método dot()? ¿Qué le responderías en un frase?*
 
+El método dot() mide cuánto apuntan dos vectores en la misma dirección: sirve para calcular el ángulo entre ellos o saber si van en la misma o en direcciones opuestas.
+
 #### *El método dot() tiene una versión estática y una de instancia. ¿Cuál es la diferencia entre ambas?*
+
+La versión de instancia se llama desde un objeto vector y se le pasa otro vector como argumento: a.dot(b).
+La versión estática se llama desde la clase y toma dos vectores como argumentos: p5.Vector.dot(a, b). Ambas hacen lo mismo, pero se usan de forma diferente según el contexto.
 
 #### *Ahora el mismo periodista curioso de antes te pregunta si le puedes dar una intuición geométrica acerca del producto cruz. Entonces te pregunta ¿Cuál es la interpretación geométrica del producto cruz de dos vectores? Tu respuesta debe incluir qué pasa con la orientación y la magnitud del vector resultante.*
 
+El producto cruz (cross product) entre dos vectores genera un nuevo vector que es perpendicular (ortogonal) a ambos vectores originales.
+
+* Magnitud: representa el área del paralelogramo que forman los dos vectores.
+
+* Orientación: sigue la regla de la mano derecha, lo que significa que apunta hacia afuera de la superficie si enrollas los dedos de tu mano derecha desde el primer vector hacia el segundo.
+
 #### *¿Para que te puede servir el método dist()?*
 
+El método dist() calcula la distancia entre dos vectores, que se interpreta como la distancia entre dos puntos en el espacio. Es útil para saber cuán lejos está un objeto de otro.
+
 #### *¿Para qué sirven los métodos normalize() y limit()?*
+
+* normalize() convierte el vector en una dirección pura (magnitud 1), útil para mantener direcciones consistentes sin importar la fuerza.
+
+* limit() restringe la magnitud de un vector a un máximo dado, lo cual es útil para controlar velocidades máximas, evitar que objetos se muevan demasiado rápido, etc.
+
+* 
 

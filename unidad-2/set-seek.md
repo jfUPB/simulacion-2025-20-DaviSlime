@@ -169,5 +169,68 @@ El método dist() calcula la distancia entre dos vectores, que se interpreta com
 
 * limit() restringe la magnitud de un vector a un máximo dado, lo cual es útil para controlar velocidades máximas, evitar que objetos se muevan demasiado rápido, etc.
 
-* 
 
+### Actividad 5
+
+#### Codigo:
+
+```javascript
+let FactorOfInterpolationWithTheBlueAndTheRed = 0;
+let step = 0.01;
+
+
+function setup() {
+    createCanvas(300, 300);
+
+}
+
+function draw() {
+    background(200);
+
+    // Actualizar interpolación
+    FactorOfInterpolationWithTheBlueAndTheRed += step;
+    if (FactorOfInterpolationWithTheBlueAndTheRed > 1 || FactorOfInterpolationWithTheBlueAndTheRed < 0) {
+        step *= -1;
+    }
+
+    // Vectores base
+    let v0 = createVector(70, 70);
+    let v1 = createVector(180, 0);
+    let v2 = createVector(0, 180);
+    let v3 = p5.Vector.lerp(v1, v2, FactorOfInterpolationWithTheBlueAndTheRed);
+    let v4 = p5.Vector.sub(v2, v1);
+
+    // Interpolar color entre rojo y azul
+    let moradoInterpolado = lerpColor('red', 'blue', FactorOfInterpolationWithTheBlueAndTheRed);
+
+    // Dibujar flechas
+    drawArrow(v0, v1, 'red');                        
+    drawArrow(v0, v2, 'blue');                      
+    drawArrow(v0, v3, moradoInterpolado);           
+    drawArrow(p5.Vector.add(v0, v1), v4, 'green');  // Verde
+}
+
+function drawArrow(base, vec, myColor) {
+    push();
+    stroke(myColor);
+    strokeWeight(3);
+    fill(myColor);
+    translate(base.x, base.y);
+    line(0, 0, vec.x, vec.y);
+    rotate(vec.heading());
+    let arrowSize = 7;
+    translate(vec.mag() - arrowSize, 0);
+    triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
+    pop();
+}
+```
+
+#### ¿Cómo funciona lerp() y lerpColor()?
+
+* lerp() funciona haciendo una interpolacion entre dos factores en este caso dos vectores el rojo y el azul.
+
+* lerpColor() es la misma interpolación pero en este caso la interpolacion es con colores.
+
+#### ¿Cómo se dibuja una flecha usando drawArrow()?
+
+drawArrow() dibuja una flecha desde un punto de origen en la dirección y longitud de un vector, con el color que uno elige.

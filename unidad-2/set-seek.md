@@ -136,7 +136,7 @@ Cuando se pasa a la función playingVector(v), se modifica el mismo vector que e
 
 #### *¿Para qué sirve el método mag()? Nota que hay otro método llamado magSq(). ¿Cuál es la diferencia entre ambos? ¿Cuál es más eficiente?*
 
-El método mag() calcula la magnitud o longitud de un vector, es decir, qué tan largo es. Es como medir la distancia desde el origen hasta la posición del vector en el espacio. magSq() devuelve la magnitud al cuadrado del vector, sin calcular la raíz cuadrada. Es más eficiente que mag() porque evita una operación matemática costosa (la raíz cuadrada). Si solo necesitas comparar magnitudes (por ejemplo, para saber cuál vector es más largo), magSq() es preferible.
+El método mag() calcula la magnitud o longitud de un vector, es decir, qué tan largo es. Es como medir la distancia desde el origen hasta la posición del vector en el espacio. magSq() devuelve la magnitud al cuadrado del vector, sin calcular la raíz cuadrada. Es más eficiente que mag() porque evita una operación matemática costosa (la raíz cuadrada).
 
 #### *¿Para qué sirve el método normalize()?*
 
@@ -153,7 +153,7 @@ La versión estática se llama desde la clase y toma dos vectores como argumento
 
 #### *Ahora el mismo periodista curioso de antes te pregunta si le puedes dar una intuición geométrica acerca del producto cruz. Entonces te pregunta ¿Cuál es la interpretación geométrica del producto cruz de dos vectores? Tu respuesta debe incluir qué pasa con la orientación y la magnitud del vector resultante.*
 
-El producto cruz (cross product) entre dos vectores genera un nuevo vector que es perpendicular (ortogonal) a ambos vectores originales.
+El producto cruz entre dos vectores genera un nuevo vector que es perpendicular a ambos vectores originales.
 
 * Magnitud: representa el área del paralelogramo que forman los dos vectores.
 
@@ -165,7 +165,7 @@ El método dist() calcula la distancia entre dos vectores, que se interpreta com
 
 #### *¿Para qué sirven los métodos normalize() y limit()?*
 
-* normalize() convierte el vector en una dirección pura (magnitud 1), útil para mantener direcciones consistentes sin importar la fuerza.
+* normalize() convierte el vector en un vector unitario (magnitud 1), útil para mantener direcciones consistentes sin importar la fuerza.
 
 * limit() restringe la magnitud de un vector a un máximo dado, lo cual es útil para controlar velocidades máximas, evitar que objetos se muevan demasiado rápido, etc.
 
@@ -234,3 +234,42 @@ function drawArrow(base, vec, myColor) {
 #### ¿Cómo se dibuja una flecha usando drawArrow()?
 
 drawArrow() dibuja una flecha desde un punto de origen en la dirección y longitud de un vector, con el color que uno elige.
+
+### Actividad 6
+
+**Cuál es el concepto del marco motion 101 y cómo se interpreta geométricamente.**
+
+-El concepto de 101 es un concepto para simular movimiento de un objeto en un espacio utilizando la direccion, la velocidad y aceleración para esto.
+
+**¿Cómo se aplica motion 101 en el ejemplo?**
+
+En el Ejemplo 1.7, el autor implementa un objeto que se mueve por la pantalla utilizando exactamente el marco Motion 101:
+
+Se crea un objeto "Mover" que tiene atributos: position, velocity, y acceleration.
+
+Se aplica una aceleración.
+
+Se actualiza la velocidad con esa aceleración.
+
+Se actualiza la posición con la nueva velocidad.
+
+
+### Actividad 7
+
+En el libro proponen una regla (que eventualmente se rompe cuando conviene):
+
+The goal for programming motion is to come up with an algorithm for calculating acceleration and then let the trickle-down effect work its magic.
+
+Para investigador el significado de esta frase te propone que construyas un experimento donde analices cómo se comporta un objeto en movimiento con:
+
+- Aceleración constante:
+
+el objeto emieza a acelererce y la velocidad va aumentando en una sola direccion direccion.
+
+- Aceleración aleatoria.
+
+el objeto frena y se aceler de una forma aleatoria por lo que su movimiento es extraño y muy impredecible, haciendolo moverse en todas direcciones con velocidades diferentes.
+
+- Aceleración hacia el mouse.
+
+el objeto se acelera mas a medida que está mas lejos del mouse para llegar a el. un dato curios es que cuando llega al mouse se queda orbitandolo nunca llega a el.

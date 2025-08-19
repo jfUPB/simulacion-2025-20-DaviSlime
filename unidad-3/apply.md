@@ -51,6 +51,18 @@ Este modelo representa una simulación simplificada del sistema n-cuerpos, donde
 
 ---
 
+#### 4. Relacion con Alexander Calder
+
+| Elemento                               | Obra generativa (p5.js)                                          | Obra de Calder                                                  |
+| -------------------------------------- | ---------------------------------------------------------------- | --------------------------------------------------------------- |
+| **Movimiento constante**               | Las partículas están en movimiento continuo.                     | Las piezas móviles se balancean y giran constantemente.         |
+| **Interacción con fuerzas invisibles** | Atracción gravitacional entre partículas y hacia el mouse.       | Influencia del viento, gravedad y equilibrio físico.            |
+| **Interdependencia de elementos**      | Las partículas se afectan mutuamente, como un sistema n-cuerpos. | Cada parte del móvil afecta a las demás a través del balanceo.  |
+| **Sensibilidad al entorno**            | El usuario modifica fuerzas con teclas y el mouse.               | El aire o el tacto pueden alterar el movimiento de los móviles. |
+| **Estética del caos y el equilibrio**  | Movimiento aparentemente caótico pero armónico y fluido.         | Composición visual que parece aleatoria pero está equilibrada.  |
+
+---
+
 ### Enlace a la simulación
 
 https://editor.p5js.org/DaviSlime/sketches/isYaFj32q
@@ -61,7 +73,7 @@ https://editor.p5js.org/DaviSlime/sketches/isYaFj32q
 let particles = [];
 let G = 0.4;       // Constante gravitacional para interacción entre partículas
 let mouseG = 1.5;  // Constante gravitacional para atracción al mouse (más fuerte)
-let numParticles = 200;
+let numParticles = 20;
 let currentColor;
 
 function setup() {
@@ -77,6 +89,16 @@ function draw() {
 
   let mousePos = createVector(mouseX, mouseY);
 
+  // Dibuja líneas ("cuerdas") entre partículas
+  stroke(currentColor);
+  strokeWeight(0.5);
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      line(particles[i].pos.x, particles[i].pos.y, particles[j].pos.x, particles[j].pos.y);
+    }
+  }
+  noStroke();
+
   for (let p of particles) {
     p.attractedToMouse(mousePos);
     for (let other of particles) {
@@ -85,6 +107,7 @@ function draw() {
       }
     }
     p.update();
+    p.checkEdges();
     p.show();
   }
 }
@@ -152,6 +175,24 @@ class Particle {
     this.pos.add(this.vel);
     this.acc.mult(0);
   }
+  
+  // Rebotar en los bordes
+  checkEdges() {
+    if (this.pos.x < 0) {
+      this.pos.x = 0;
+      this.vel.x *= -1;
+    } else if (this.pos.x > width) {
+      this.pos.x = width;
+      this.vel.x *= -1;
+    }
+    if (this.pos.y < 0) {
+      this.pos.y = 0;
+      this.vel.y *= -1;
+    } else if (this.pos.y > height) {
+      this.pos.y = height;
+      this.vel.y *= -1;
+    }
+  }
 
   show() {
     fill(this.color);
@@ -160,8 +201,11 @@ class Particle {
 }
 
 
+
 ```
 
 ### Imagen representativa
 
-<img width="943" height="805" alt="image" src="https://github.com/user-attachments/assets/52c28e3e-6b56-4bef-800a-c847f34e8061" />
+<img width="942" height="806" alt="image" src="https://github.com/user-attachments/assets/5ad49750-8cbd-45db-8511-03eadd1095b6" />
+
+

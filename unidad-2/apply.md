@@ -1,10 +1,3 @@
-# Unidad 2
-
-
-## 🛠 Fase: Apply
-
-No está la actividad. Esta nota la deja el profesor.
-
 
 # Unidad 2
 
@@ -165,3 +158,4 @@ https://editor.p5js.org/DaviSlime/sketches/piTN3nkl5
 
 8. Una captura de pantalla representativa de tu pieza de arte generativo.
 <img width="919" height="747" alt="image" src="https://github.com/user-attachments/assets/8dfd7982-ecc0-4ee0-a971-1657b7872b27" />
+

@@ -293,7 +293,17 @@ Resistencia de la miel:
 
 #### Atracción gravitacional
 
+1. Modelado de fuerzas:
+Se usó la ley de gravitación universal, calculando la atracción según masa y distancia, y aplicándola como aceleración a cada partícula.
 
+2. Relación con la obra generativa:
+La fuerza guía el movimiento de las partículas, creando patrones dinámicos y orgánicos que simulan un sistema vivo alrededor del agujero negro.
+
+4. [https://editor.p5js.org/DaviSlime/sketches/J101SvAKM](https://editor.p5js.org/DaviSlime/sketches/nWLL9cHTj)
+
+5. Código
+
+```javascript
 let movers = [];
 let blackHole;
 let G = 1;
@@ -411,4 +421,7 @@ class Attractor {
     ellipse(this.position.x, this.position.y, this.radius * 2);
   }
 }
+
+```
+
 

@@ -4,23 +4,23 @@
 
 * ¿Qué concepto de la unidad 4 y cómo lo aplicaste en la obra?
 > Tu respuesta aquí:
-> Sistemas de partículas. La obra representa un sistema compuesto por múltiples péndulos que actúan como elementos individuales dentro de un conjunto que genera un comportamiento complejo y visualmente armónico.
+> Oscilaciones. Cada péndulo sigue un movimiento oscilatorio basado en la física del péndulo simple, aplicando aceleración angular, velocidad angular y amortiguamiento..
 
 * ¿Qué concepto de la unidad 3 y cómo lo aplicaste en la obra?
 > Tu respuesta aquí:
-> Oscilaciones. Cada péndulo sigue un movimiento oscilatorio basado en la física del péndulo simple, aplicando aceleración angular, velocidad angular y amortiguamiento.
+> Fuerzas aplicadas externamente. Se simula el viento aplicando una fuerza angular hacia la izquierda o derecha cuando se presionan las teclas "A" o "D".
 
 * ¿Qué concepto de la unidad 2 y cómo lo aplicaste en la obra?
 > Tu respuesta aquí:
-> Fuerzas aplicadas externamente. Se simula el viento aplicando una fuerza angular hacia la izquierda o derecha cuando se presionan las teclas "A" o "D".
+> Velocidad constante y amortiguamiento. Los péndulos oscilan con velocidad angular que se modifica por aceleración y se reduce con amortiguamiento (damping), creando un movimiento natural.
 
 * ¿Qué concepto de la unidad 1 y cómo lo aplicaste en la obra?
 > Tu respuesta aquí:
-> Velocidad constante y amortiguamiento. Los péndulos oscilan con velocidad angular que se modifica por aceleración y se reduce con amortiguamiento (damping), creando un movimiento natural.
+> Color aleatorio y vectores. Se usa p5.Vector para calcular posiciones del péndulo, y el color global de todos los péndulos cambia aleatoriamente cada 2 segundos
 
 ## ¿Cómo resolviste la interacción?
 > Tu respuesta aquí:
-> Color aleatorio y vectores. Se usa p5.Vector para calcular posiciones del péndulo, y el color global de todos los péndulos cambia aleatoriamente cada 2 segundos
+> Queria un pendulo basado en la obra de arte generativo de [Patt Vira](https://youtu.be/GqVyz-8AGcA?si=vqViXMAT8sdmni59) pero que en vez de que sea con sonido se pudiera interactuar y manipular el viento, sobre todo con esa parte tenia un problema y fue que la velocidad del viento se acomulaba cada frame por lo que se aceleraba demasiado ya que mi codigo asi funcionaba lo solucione haciendo mas pequeña la multipicacion de la fuerza que se aplicaba. 
 
 ## Enlace a la obra en el editor de p5.js
 
@@ -171,6 +171,7 @@ class Pendulum {
 
 
 <img width="810" height="604" alt="image" src="https://github.com/user-attachments/assets/3d26e071-473c-47f6-a948-ddfd5946b453" />
+
 
 
 

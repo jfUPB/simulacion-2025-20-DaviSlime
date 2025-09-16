@@ -302,3 +302,167 @@ class Particle {
 ### Captura de pantalla
 
 <img width="920" height="730" alt="image" src="https://github.com/user-attachments/assets/65502e47-feb4-4a20-a341-24289aa34191" />
+
+
+## Ejemplo 4.5: a Particle System with Inheritance and Polymorphism.
+
+### 1. Gestión de creación, desaparición de partículas y memoria
+
+La creación de partículas se maneja añadiendo nuevos objetos al array `pinceles` tanto al iniciar la simulación en `setup()` como al hacer clic con el mouse (`mousePressed()`). Cada clic agrega un conjunto de partículas nuevas en la posición del cursor.
+
+En cuanto a la desaparición, el código **no implementa ningún mecanismo para eliminar partículas**. Esto significa que una vez creadas, las partículas permanecen activas y se actualizan continuamente. Como resultado, la memoria utilizada por la simulación crece conforme se agregan más partículas y no se liberan recursos.
+
+
+### 2. Concepto aplicado, cómo y por qué
+
+El concepto aplicado es el de un **sistema dinámico de partículas**, donde las partículas son creadas, actualizadas y renderizadas continuamente. Se aplica la creación dinámica en respuesta a eventos (clics) para enriquecer la composición visual.
+
+Sin embargo, no se implementa un sistema de desaparición o “vida útil” para las partículas. Esto es intencional para mantener el efecto visual de la obra: los trazos de las partículas se acumulan en el lienzo, generando una pintura viva y en evolución constante.
+
+Esta elección prioriza la estética y la experiencia visual sobre la optimización de memoria o rendimiento, permitiendo que la obra evolucione sin perder el historial visual de movimiento.
+
+### 3. Enlace a la obra de arte
+
+https://editor.p5js.org/DaviSlime/sketches/3vEPRwNWL
+
+### 4. Codigo Fuente
+
+```js
+let pinceles = [];
+let planeta;
+
+function setup() {
+  createCanvas(800, 800);
+  background(0);
+
+  // Planeta central
+  planeta = new Planeta(createVector(width / 2, height / 2));
+
+  // Crear pinceles iniciales
+  for (let i = 0; i < 60; i++) {
+    agregarPincel(random(width), random(height));
+  }
+}
+
+function draw() {
+  // No limpiamos el fondo para que las trayectorias se acumulen
+  for (let p of pinceles) {
+    p.atraer(planeta);
+    p.update();
+    p.display();
+  }
+
+  // Mostrar el planeta
+  planeta.display();
+}
+
+function mousePressed() {
+  // Añadir más pinceles con cada clic
+  for (let i = 0; i < 10; i++) {
+    agregarPincel(mouseX, mouseY);
+  }
+}
+
+function agregarPincel(x, y) {
+  let tipo = random(["grueso", "fino", "borroso"]);
+  let p;
+  if (tipo === "grueso") {
+    p = new PincelGrueso(createVector(x, y));
+  } else if (tipo === "fino") {
+    p = new PincelFino(createVector(x, y));
+  } else {
+    p = new PincelBorroso(createVector(x, y));
+  }
+  pinceles.push(p);
+}
+
+// --------------------- CLASES ---------------------
+
+class Particle {
+  constructor(pos) {
+    this.pos = pos.copy();
+    this.vel = p5.Vector.random2D().mult(random(0.5, 2));
+    this.acc = createVector(0, 0);
+    this.mass = random(1, 3);
+    this.prevPos = this.pos.copy();
+    this.color = color(random(100, 255), random(100, 255), random(100, 255), 100);
+  }
+
+  applyForce(force) {
+    let f = p5.Vector.div(force, this.mass);
+    this.acc.add(f);
+  }
+
+  update() {
+    this.vel.add(this.acc);
+    this.pos.add(this.vel);
+    this.acc.mult(0);
+  }
+
+  atraer(planeta) {
+    let force = p5.Vector.sub(planeta.pos, this.pos);
+    let d = constrain(force.mag(), 10, 50);
+    force.normalize();
+    let G = 2;
+    let strength = (G * this.mass * planeta.mass) / (d * d);
+    force.mult(strength);
+    this.applyForce(force);
+  }
+
+  display() {
+    // Se sobrescribe en subclases
+  }
+}
+
+class Planeta {
+  constructor(pos) {
+    this.pos = pos.copy();
+    this.mass = 1000;
+    this.r = 40;
+  }
+
+  display() {
+    push();
+    noStroke();
+    for (let r = this.r * 2; r > 0; r -= 2) {
+      let alpha = map(r, 0, this.r * 2, 255, 0);
+      fill(80, 120, 255, alpha);
+      ellipse(this.pos.x, this.pos.y, r * 2);
+    }
+    pop();
+  }
+}
+
+// -------- SUBCLASES DE PINCEL --------
+
+class PincelGrueso extends Particle {
+  display() {
+    stroke(this.color);
+    strokeWeight(6);
+    line(this.prevPos.x, this.prevPos.y, this.pos.x, this.pos.y);
+    this.prevPos = this.pos.copy();
+  }
+}
+
+class PincelFino extends Particle {
+  display() {
+    stroke(this.color);
+    strokeWeight(2);
+    line(this.prevPos.x, this.prevPos.y, this.pos.x, this.pos.y);
+    this.prevPos = this.pos.copy();
+  }
+}
+
+class PincelBorroso extends Particle {
+  display() {
+    stroke(red(this.color), green(this.color), blue(this.color), 40);
+    strokeWeight(3);
+    line(this.prevPos.x, this.prevPos.y, this.pos.x, this.pos.y);
+    this.prevPos = this.pos.copy();
+  }
+}
+```
+
+### Evidencia
+<img width="800" height="798" alt="image" src="https://github.com/user-attachments/assets/40e01d81-d727-4765-9fea-d887d15674ef" />
+

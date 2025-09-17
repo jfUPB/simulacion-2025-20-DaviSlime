@@ -466,3 +466,366 @@ class PincelBorroso extends Particle {
 ### Evidencia
 <img width="800" height="798" alt="image" src="https://github.com/user-attachments/assets/40e01d81-d727-4765-9fea-d887d15674ef" />
 
+
+### Ejemplo 4.6: a Particle System with Forces.
+
+### 1. Gestión de partículas y memoria
+Cada clic genera un nuevo sistema de partículas con color único, almacenado en un arreglo.  
+Cuando una partícula pierde su vida útil, se elimina del arreglo, liberando memoria.  
+Si se presiona la barra espaciadora, se borran todos los sistemas.
+
+### 2. Conceptos aplicados
+- **Particle System with Forces (Cap. 4.6):** las partículas se ven afectadas por fuerzas como gravedad, fuerzas centrípetas y de giro.  
+- **Springs (Cap. 3):** las partículas están conectadas con resortes que generan oscilaciones naturales.  
+
+### 3. Enlace a la obra
+
+https://editor.p5js.org/DaviSlime/sketches/5g0QVD0Pj
+
+### 4. Codigo
+
+```js
+// --- Sistema de partículas con resortes y fuerzas giratorias ---
+// Basado en "The Nature of Code" (Cap 3 y 4)
+
+let systems = [];
+
+function setup() {
+  createCanvas(900, 600);
+  background(15);
+}
+
+function draw() {
+  background(15, 40); // Fondo con efecto "trailing"
+
+  for (let ps of systems) {
+    ps.applyGlobalForces();
+    ps.run();
+  }
+}
+
+// Clic: crear un nuevo sistema de partículas en la posición del mouse
+function mousePressed() {
+  let ps = new ParticleSystem(createVector(mouseX, mouseY));
+  systems.push(ps);
+}
+
+// Barra espaciadora: borrar todos los sistemas
+function keyPressed() {
+  if (key === ' ') {
+    systems = [];
+  }
+}
+
+// ---------------- Clases ----------------
+
+class Particle {
+  constructor(position, col) {
+    this.pos = position.copy();
+    this.vel = p5.Vector.random2D().mult(random(1, 2));
+    this.acc = createVector(0, 0);
+    this.lifespan = 255;
+    this.col = col; // color propio
+  }
+
+  applyForce(force) {
+    this.acc.add(force);
+  }
+
+  update() {
+    this.vel.add(this.acc);
+    this.pos.add(this.vel);
+    this.acc.mult(0);
+    this.lifespan -= 1.0;
+  }
+
+  display() {
+    stroke(this.col.levels[0], this.col.levels[1], this.col.levels[2], this.lifespan);
+    strokeWeight(2);
+    fill(this.col.levels[0], this.col.levels[1], this.col.levels[2], this.lifespan);
+    ellipse(this.pos.x, this.pos.y, 8);
+  }
+
+  isDead() {
+    return this.lifespan < 0;
+  }
+}
+
+class ParticleSystem {
+  constructor(origin) {
+    this.origin = origin.copy();
+    this.particles = [];
+
+    // Color random único para este sistema
+    this.col = color(random(100, 255), random(100, 255), random(100, 255));
+
+    // Crear partículas iniciales
+    for (let i = 0; i < 8; i++) {
+      this.particles.push(new Particle(this.origin, this.col));
+    }
+
+    // Crear "resortes" (pares de partículas unidas)
+    this.springs = [];
+    for (let i = 0; i < this.particles.length; i++) {
+      let a = this.particles[i];
+      let b = this.particles[(i + 1) % this.particles.length]; // circular
+      this.springs.push(new Spring(a, b, 50, this.col));
+    }
+  }
+
+  applyGlobalForces() {
+    for (let p of this.particles) {
+      // Gravedad ligera
+      let gravity = createVector(0, 0.03);
+      p.applyForce(gravity);
+
+      // Fuerza centrípeta (como un remolino)
+      let dir = p5.Vector.sub(this.origin, p.pos);
+      dir.normalize();
+      dir.mult(0.05);
+      p.applyForce(dir);
+
+      // Fuerza de "spinning"
+      let spin = createVector(-dir.y, dir.x).mult(0.05);
+      p.applyForce(spin);
+    }
+  }
+
+  run() {
+    // Actualizar resortes
+    for (let s of this.springs) {
+      s.update();
+      s.display();
+    }
+
+    // Actualizar partículas
+    for (let i = this.particles.length - 1; i >= 0; i--) {
+      let p = this.particles[i];
+      p.update();
+      p.display();
+      if (p.isDead()) {
+        this.particles.splice(i, 1);
+      }
+    }
+  }
+}
+
+class Spring {
+  constructor(a, b, restLength, col) {
+    this.a = a;
+    this.b = b;
+    this.k = 0.05; // constante del resorte
+    this.restLength = restLength;
+    this.col = col; // mismo color que las partículas del sistema
+  }
+
+  update() {
+    let force = p5.Vector.sub(this.b.pos, this.a.pos);
+    let d = force.mag();
+    let stretch = d - this.restLength;
+
+    // Hooke's law: F = -k * stretch
+    force.normalize();
+    force.mult(-1 * this.k * stretch);
+
+    this.a.applyForce(force);
+    force.mult(-1);
+    this.b.applyForce(force);
+  }
+
+  display() {
+    stroke(this.col);
+    line(this.a.pos.x, this.a.pos.y, this.b.pos.x, this.b.pos.y);
+  }
+}
+
+```
+
+### 5. Evidencia
+
+<img width="888" height="741" alt="image" src="https://github.com/user-attachments/assets/18bccf08-904c-45cd-b1df-3fb8d9bafedc" />
+
+
+## Ejemplo 4.7: a Particle System with a Repeller.
+
+### 1. Gestión de la creación, desaparición de partículas y memoria
+Las partículas se crean en cada frame en el sistema, y se van eliminando automáticamente cuando su vida llega a cero. Esto evita que se acumulen infinitamente y asegura que la memoria se gestione de forma eficiente, manteniendo la simulación fluida.
+
+### 2. Conceptos aplicados
+- **Particle System con Repeller (Cap. 4.7):** Usamos partículas que reaccionan a fuerzas de repulsión, simulando el efecto de las "flores" alejándose de los puntos repelentes.  
+- **Forces (Cap. 2):** Aplicamos vectores de fuerza para controlar movimiento y dirección.  
+- **Motion 101 (Cap. 1):** Cada partícula sigue reglas básicas de movimiento (posición, velocidad, aceleración).
+
+### 3. Enlace a la obra
+
+https://editor.p5js.org/DaviSlime/sketches/zly7b0ap0
+
+### 4. Codigo
+
+```js
+// --- Jardín de partículas solares con Repellers dinámicos ---
+// Basado en "The Nature of Code" (Cap. 1 a 4)
+
+let systems = [];
+let repellers = [];
+
+function setup() {
+  createCanvas(900, 600);
+  background(20);
+  
+  // Un par de repulsores iniciales
+  repellers.push(new Repeller(width * 0.3, height * 0.5));
+  repellers.push(new Repeller(width * 0.7, height * 0.4));
+}
+
+function draw() {
+  background(20, 40); // efecto trailing
+
+  // Dibujar y mover repulsores
+  for (let r of repellers) {
+    r.move();
+    r.display();
+  }
+
+  // Actualizar sistemas de partículas
+  for (let ps of systems) {
+    for (let r of repellers) {
+      ps.applyRepeller(r);
+    }
+    ps.run();
+  }
+}
+
+// --- Control de mouse ---
+function mousePressed() {
+  if (mouseButton === LEFT) {
+    // Clic izquierdo -> nueva flor
+    systems.push(new ParticleSystem(createVector(mouseX, mouseY)));
+  } else if (mouseButton === RIGHT) {
+    // Clic derecho -> nuevo repulsor
+    repellers.push(new Repeller(mouseX, mouseY));
+    return false; // evita menú contextual
+  }
+}
+
+// Barra espaciadora: limpiar todo
+function keyPressed() {
+  if (key === ' ') {
+    systems = [];
+    repellers = [];
+  }
+}
+
+// ---------------- Clases ----------------
+
+// Partícula individual
+class Particle {
+  constructor(position, col) {
+    this.pos = position.copy();
+    this.vel = p5.Vector.random2D().mult(random(1, 3));
+    this.acc = createVector(0, 0);
+    this.lifespan = 255;
+    this.col = col;
+    this.theta = random(TWO_PI); // para oscilación
+  }
+
+  applyForce(force) {
+    this.acc.add(force);
+  }
+
+  update() {
+    this.vel.add(this.acc);
+    this.pos.add(this.vel);
+    this.acc.mult(0);
+
+    // Oscilación suave
+    this.theta += 0.1;
+    this.pos.x += sin(this.theta) * 0.5;
+
+    this.lifespan -= 1.5;
+  }
+
+  display() {
+    noStroke();
+    fill(this.col.levels[0], this.col.levels[1], this.col.levels[2], this.lifespan);
+    ellipse(this.pos.x, this.pos.y, 8);
+  }
+
+  isDead() {
+    return this.lifespan < 0;
+  }
+}
+
+// Sistema de partículas ("flor")
+class ParticleSystem {
+  constructor(origin) {
+    this.origin = origin.copy();
+    this.particles = [];
+
+    // color único para la flor
+    this.col = color(random(150, 255), random(100, 200), random(100, 255));
+
+    // generar pétalos iniciales
+    for (let i = 0; i < 20; i++) {
+      this.particles.push(new Particle(this.origin, this.col));
+    }
+  }
+
+  applyRepeller(repeller) {
+    for (let p of this.particles) {
+      let force = repeller.repel(p);
+      p.applyForce(force);
+    }
+  }
+
+  run() {
+    for (let i = this.particles.length - 1; i >= 0; i--) {
+      let p = this.particles[i];
+      p.update();
+      p.display();
+      if (p.isDead()) {
+        this.particles.splice(i, 1);
+      }
+    }
+  }
+}
+
+// Repulsor (simula ráfaga de viento)
+class Repeller {
+  constructor(x, y) {
+    this.pos = createVector(x, y);
+    this.power = 100;
+    this.angle = random(TWO_PI);
+    this.speed = random(0.01, 0.03); // movimiento lento
+  }
+
+  repel(particle) {
+    let dir = p5.Vector.sub(this.pos, particle.pos);
+    let d = dir.mag();
+    d = constrain(d, 5, 100);
+    dir.normalize();
+    let force = -1 * this.power / (d * d);
+    dir.mult(force);
+    return dir;
+  }
+
+  move() {
+    // Movimiento circular suave
+    this.angle += this.speed;
+    this.pos.x += cos(this.angle) * 0.3;
+    this.pos.y += sin(this.angle) * 0.3;
+  }
+
+  display() {
+    noFill();
+    stroke(100, 200, 255, 180);
+    ellipse(this.pos.x, this.pos.y, 30);
+  }
+}
+
+```
+
+### 5. Evidencia
+
+<img width="875" height="742" alt="image" src="https://github.com/user-attachments/assets/8eba18b0-3f4f-4669-8bd8-48ce69707b2a" />
+

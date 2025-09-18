@@ -829,3 +829,43 @@ class Repeller {
 
 <img width="875" height="742" alt="image" src="https://github.com/user-attachments/assets/8eba18b0-3f4f-4669-8bd8-48ce69707b2a" />
 
+---
+
+# Actividad 3
+
+**Obra Interactiva: *Sinfonía de Partículas**  
+
+## 1. Concepto  
+La obra busca **visualizar la energía invisible de la música**. Cada sonido y frecuencia se convierte en partículas que nacen, vibran y desaparecen. Se comunica que la música no solo se escucha, sino que también se **ve y se siente** como una fuerza expansiva.  
+
+---
+
+## 2. Interacción  
+- **Entrada principal**: micrófono o canción cargada.  
+- **Tecla "d"** → genera una explosión de partículas.  
+- **Movimiento del mouse** → influye en la dirección de las partículas.  
+
+---
+
+## 3. Conceptos aplicados (*The Nature of Code*)  
+1. **Random**: colores aleatorios cada reinicio.
+2. **Vectores**: posición, velocidad y aceleración de partículas.  
+3. **Fuerzas**: la música actúa como fuerza que impulsa las partículas.  
+4. **Oscilaciones**: movimiento ondulante que refleja las ondas del sonido.  
+5. **Sistemas de partículas**: cada partícula tiene un ciclo de vida (nace, vive, muere), gestionando memoria.  
+
+---
+
+## 4. Gestión de partículas  
+Cada partícula tiene un **lifespan** que disminuye hasta 0, momento en el cual desaparece. Esto mantiene la obra dinámica y evita sobrecarga de memoria.  
+
+---
+
+## 5. Intención  
+La obra transmite la **belleza de lo efímero en la música**:  
+- Cada nota da vida a una partícula.  
+- Cada partícula vive un ciclo corto, como una canción.  
+- El espectador no solo escucha, sino que **participa** en transformar el sonido en experiencia visual.  
+
+
+

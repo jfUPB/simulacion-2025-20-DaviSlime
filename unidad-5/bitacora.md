@@ -485,8 +485,6 @@ https://editor.p5js.org/DaviSlime/sketches/5g0QVD0Pj
 ### 4. Codigo
 
 ```js
-// --- Sistema de partículas con resortes y fuerzas giratorias ---
-// Basado en "The Nature of Code" (Cap 3 y 4)
 
 let systems = [];
 
@@ -663,8 +661,6 @@ https://editor.p5js.org/DaviSlime/sketches/zly7b0ap0
 ### 4. Codigo
 
 ```js
-// --- Jardín de partículas solares con Repellers dinámicos ---
-// Basado en "The Nature of Code" (Cap. 1 a 4)
 
 let systems = [];
 let repellers = [];
@@ -835,19 +831,19 @@ class Repeller {
 
 **Obra Interactiva: *Sinfonía de Partículas**  
 
-## 1. Concepto  
+### 1. Concepto  
 La obra busca **visualizar la energía invisible de la música**. Cada sonido y frecuencia se convierte en partículas que nacen, vibran y desaparecen. Se comunica que la música no solo se escucha, sino que también se **ve y se siente** como una fuerza expansiva.  
 
 ---
 
-## 2. Interacción  
+### 2. Interacción  
 - **Entrada principal**: micrófono o canción cargada.  
 - **Tecla "d"** → genera una explosión de partículas.  
 - **Movimiento del mouse** → influye en la dirección de las partículas.  
 
 ---
 
-## 3. Conceptos aplicados (*The Nature of Code*)  
+### 3. Conceptos aplicados (*The Nature of Code*)  
 1. **Random**: colores aleatorios cada reinicio.
 2. **Vectores**: posición, velocidad y aceleración de partículas.  
 3. **Fuerzas**: la música actúa como fuerza que impulsa las partículas.  
@@ -856,16 +852,323 @@ La obra busca **visualizar la energía invisible de la música**. Cada sonido y 
 
 ---
 
-## 4. Gestión de partículas  
+### 4. Gestión de partículas  
 Cada partícula tiene un **lifespan** que disminuye hasta 0, momento en el cual desaparece. Esto mantiene la obra dinámica y evita sobrecarga de memoria.  
 
 ---
 
-## 5. Intención  
+### 5. Intención  
 La obra transmite la **belleza de lo efímero en la música**:  
 - Cada nota da vida a una partícula.  
 - Cada partícula vive un ciclo corto, como una canción.  
 - El espectador no solo escucha, sino que **participa** en transformar el sonido en experiencia visual.  
 
+### 6. Enlace
+
+https://editor.p5js.org/DaviSlime/sketches/sSIVKXXqt
+
+### 7. Codigo
+
+```js
+// Sinfonía de Partículas con onda inferior optimizada
+
+let song;
+let fileInput;
+let amp;
+let fft;
+let systems = [];
+let globalIntensity = 1;
+let prevLevel = 0;
+let lastSpawnTime = 0;
+let spawnInterval = 80;
+let playing = false;
+
+function setup() {
+  createCanvas(900, 600);
+  colorMode(RGB);
+  background(10);
+
+  fileInput = createFileInput(handleFile);
+  fileInput.position(10, 10);
+  fileInput.attribute('accept', '.mp3, .wav, .ogg');
+
+  amp = new p5.Amplitude();
+  fft = new p5.FFT(0.9, 64);
+
+  systems.push(new ParticleSystem(createVector(width / 2, height / 2)));
+}
+
+function keyPressed() {
+  if (key === ' ') {
+    if (song && song.isLoaded()) {
+      if (song.isPlaying()) {
+        song.pause();
+        playing = false;
+      } else {
+        song.play();
+        playing = true;
+      }
+    }
+  }
+
+  // limpiar con "c"
+  if (key === 'c' || key === 'C') {
+    systems = [new ParticleSystem(createVector(width / 2, height / 2))];
+  }
+
+  // aumentar intensidad con "a"
+  if (key === 'a' || key === 'A') {
+    globalIntensity = constrain(globalIntensity + 0.2, 0.2, 4);
+  }
+
+  // disminuir intensidad con "d"
+  if (key === 'd' || key === 'D') {
+    globalIntensity = constrain(globalIntensity - 0.2, 0.2, 4);
+  }
+}
+
+function draw() {
+  noStroke();
+  fill(10, 10, 20, 30);
+  rect(0, 0, width, height);
+
+  let level = 0;
+  if (song && song.isLoaded()) {
+    level = amp.getLevel();
+    fft.analyze();
+  }
+
+  let now = millis();
+  let onset = false;
+  if (level - prevLevel > 0.06 * globalIntensity && (now - lastSpawnTime) > spawnInterval) {
+    onset = true;
+    lastSpawnTime = now;
+  }
+  prevLevel = level;
+
+  for (let ps of systems) {
+    ps.reactToSound(level, fft, onset);
+    ps.run();
+  }
+
+  drawWave(level);
+
+  fill(200);
+  textSize(12);
+  text("Sinfonía de Partículas — carga una canción. Espacio: play/pause. 'A': +intensidad, 'D': -intensidad, 'C': limpiar.", 10, height - 10);
+  text(`Intensidad: ${nf(globalIntensity, 1, 2)}  |  Nivel: ${nf(level, 1, 3)}`, 10, height - 24);
+}
+
+function handleFile(file) {
+  if (file.type === 'audio') {
+    if (song) {
+      song.disconnect();
+      song = null;
+    }
+    song = loadSound(file.data, () => {
+      amp.setInput(song);
+      fft.setInput(song);
+      song.play();
+      playing = true;
+    });
+  }
+}
+
+// ---------------- CLASES ----------------
+class Particle {
+  constructor(pos, col) {
+    this.pos = pos.copy();
+    this.vel = p5.Vector.random2D().mult(random(1.5, 3.5));
+    this.acc = createVector(0, 0);
+    this.r = random(3, 6);
+    this.lifespan = 200 + random(-30, 60);
+    this.col = col || color(255, 220, 200);
+    this.oscOffset = random(TWO_PI);
+    this.age = 0;
+  }
+
+  applyForce(f) {
+    this.acc.add(f);
+  }
+
+  update() {
+    this.vel.add(this.acc);
+    this.pos.add(this.vel);
+    this.acc.mult(0);
+
+    let osc = sin(frameCount * 0.02 + this.oscOffset) * 0.5;
+    this.displaySize = max(0.5, this.r + osc);
+
+    this.lifespan -= 1;
+    this.age += 1;
+  }
+
+  display() {
+    noStroke();
+    fill(red(this.col), green(this.col), blue(this.col), map(this.lifespan, 0, 255, 0, 255));
+    ellipse(this.pos.x, this.pos.y, this.displaySize * 2);
+  }
+
+  isDead() {
+    return (this.lifespan <= 0 ||
+      this.pos.x < -50 || this.pos.x > width + 50 ||
+      this.pos.y < -50 || this.pos.y > height + 50);
+  }
+}
+
+class NoteParticle extends Particle {
+  constructor(pos, col, freqEnergy) {
+    super(pos, col);
+    this.r *= 1.6;
+    this.freqEnergy = freqEnergy || 1.0;
+  }
+
+  update() {
+    this.applyForce(createVector(0, 0.02 * this.freqEnergy));
+    let boost = p5.Vector.random2D().mult(0.02 * globalIntensity);
+    this.applyForce(boost);
+
+    super.update();
+
+    if (this.freqEnergy > 0.7) {
+      this.vel.add(p5.Vector.random2D().mult(0.1 * this.freqEnergy));
+    }
+  }
+
+  display() {
+    push();
+    noStroke();
+    let alpha = map(this.lifespan, 0, 255, 0, 220);
+    fill(red(this.col), green(this.col), blue(this.col), alpha * 0.7);
+    ellipse(this.pos.x, this.pos.y, this.displaySize * 3.0);
+    fill(red(this.col), green(this.col), blue(this.col), alpha);
+    ellipse(this.pos.x, this.pos.y, this.displaySize * 1.6);
+    pop();
+  }
+}
+
+class HarmonyParticle extends Particle {
+  constructor(pos, col, freqEnergy) {
+    super(pos, col);
+    this.r *= 0.8;
+    this.freqEnergy = freqEnergy || 1.0;
+  }
+
+  update() {
+    this.applyForce(createVector(0, -0.01 * this.freqEnergy));
+    let lateral = createVector(cos(frameCount * 0.02 + this.oscOffset), sin(frameCount * 0.02 + this.oscOffset)).mult(0.01 * this.freqEnergy);
+    this.applyForce(lateral);
+
+    super.update();
+
+    if (this.freqEnergy > 0.6) {
+      this.pos.x += sin(frameCount * 0.08 + this.oscOffset) * 0.5 * this.freqEnergy;
+      this.pos.y += cos(frameCount * 0.06 + this.oscOffset) * 0.3 * this.freqEnergy;
+    }
+  }
+
+  display() {
+    push();
+    stroke(red(this.col), green(this.col), blue(this.col), map(this.lifespan, 0, 255, 0, 200));
+    strokeWeight(1.2);
+    fill(red(this.col), green(this.col), blue(this.col), map(this.lifespan, 0, 255, 0, 140));
+    ellipse(this.pos.x, this.pos.y, this.displaySize * 1.2);
+    pop();
+  }
+}
+
+class ParticleSystem {
+  constructor(origin) {
+    this.origin = origin.copy();
+    this.particles = [];
+    this.baseColor = color(random(120, 255), random(120, 255), random(120, 255));
+  }
+
+  reactToSound(level, fft, onset) {
+    if ((onset && random() < 0.9) || level * 1.2 * globalIntensity > 0.12) {
+      let n = int(map(level * globalIntensity, 0, 0.6, 1, 10));
+      n = constrain(n, 1, 15);
+
+      let lowEnergy = fft.getEnergy("bass") / 255.0;
+      let highEnergy = (fft.getEnergy("treble") + fft.getEnergy("highMid")) / 510.0;
+
+      for (let i = 0; i < n; i++) {
+        let pos = this.origin.copy();
+        let col = color(
+          red(this.baseColor) + random(-20, 20),
+          green(this.baseColor) + random(-20, 20),
+          blue(this.baseColor) + random(-20, 20)
+        );
+
+        if (random() < lowEnergy * 0.9) {
+          this.particles.push(new NoteParticle(pos, col, lowEnergy));
+        } else {
+          this.particles.push(new HarmonyParticle(pos, col, highEnergy));
+        }
+      }
+    }
+
+    if (level > 0.02) {
+      let forceStrength = map(level * globalIntensity, 0, 0.5, 0, 0.12);
+      for (let p of this.particles) {
+        let dir = p5.Vector.sub(p.pos, this.origin);
+        dir.normalize();
+        dir.mult(forceStrength * random(0.6, 1.2));
+        p.applyForce(dir);
+      }
+    }
+  }
+
+  run() {
+    for (let i = this.particles.length - 1; i >= 0; i--) {
+      let p = this.particles[i];
+      p.update();
+      p.display();
+      if (p.isDead()) {
+        this.particles.splice(i, 1);
+      }
+    }
+  }
+}
+
+// ---------------- WAVE ----------------
+function drawWave(level) {
+  noFill();
+  stroke(150, 200, 255, 150);
+  strokeWeight(2);
+  beginShape();
+  let waveAmp = map(level, 0, 0.4, 0, 100);
+  for (let x = 0; x <= width; x += 10) {
+    let y = height - 50 + sin((frameCount * 0.05) + (x * 0.05)) * waveAmp * 0.3;
+    vertex(x, y);
+  }
+  endShape();
+}
+
+```
+
+### 8. Evidencia
+
+<img width="1480" height="1920" alt="Ilustración" src="https://github.com/user-attachments/assets/3023e873-6172-49de-912a-ad020bcf7a98" />
 
 
+<img width="925" height="739" alt="image" src="https://github.com/user-attachments/assets/511ec56e-2632-460b-b73e-69c30b7e378e" />
+
+
+# Autoevaluación
+
+### 1. Investigación y Experimentación
+
+``5.0`` : considero que en la fase de investigacion me quede casi todo el tiempo en ella tratando de entender bien como gestionar las particulas y su compotamiento ademas de que esta muy bien explicado en esta bitaciora denota que si investigue del tema.
+
+### 2. Intención y Diseño
+
+``5.0`` : Creo que esta bien ponerme esta nota porque lo que realmente queria era hacer algo que se viera bonito y que transmitiera que la musica no solo es sonido tambien es algo que se puede ver y sentir con pasion.
+
+### 3. Aplicación Técnica
+
+``5.0`` : El codigo esta estructurado de modo que sea super claro que todas las clases y los procesos estan bien construidos haciendo uso de toda la programacion orientada a objetos.
+
+### 4. Calidad de la Obra Final
+
+``5.0`` : considero que la calidad es digna de una buena nota ya que visualmente es muy artactiva y en la forma interactiva es muy interactivo cambiando y adaptandose a la cancion que se quiera visualizar.

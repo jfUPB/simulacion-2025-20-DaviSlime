@@ -12,10 +12,23 @@ Esta imagen me inspira bastante paz y calma se ve muy smooth me dan ganas de hac
 
 1. **¿Qué es una fuerza de dirección (steering force)?**
 
-2. **¿Qué diferencia tiene este tipo de fuerza con las que ya hemos estudiado en el contexto de la simulación de agentes?**
+Una steering force es una fuerza que modifica la dirección de un agente para que se mueva hacia un objetivo deseado o siga un comportamiento específico. Se calcula como la diferencia entre la velocidad deseada y la velocidad actual, y se limita para mantener un movimiento realista.
 
-3. **¿Qué relación tiene la steering force con Craig Reynolds y su trabajo en simulación de comportamiento animal?**
+3. **¿Qué diferencia tiene este tipo de fuerza con las que ya hemos estudiado en el contexto de la simulación de agentes?**
 
+A diferencia de las fuerzas físicas (como gravedad o fricción), que actúan de forma pasiva, la steering force es intencional y proactiva: busca generar comportamientos como seguir, evitar o agruparse. Permite que los agentes tomen decisiones y se comporten de forma "inteligente".
+
+4. **¿Qué relación tiene la steering force con Craig Reynolds y su trabajo en simulación de comportamiento animal?**
+
+Craig Reynolds usó steering forces en su modelo de Boids para simular el comportamiento de grupos de animales (como aves o peces). Basó su algoritmo en tres reglas simples:
+
+**Separación:** evitar chocar con otros.
+
+**Alineación:** moverse en la misma dirección que el grupo.
+
+**Cohesión:** mantenerse cerca del grupo.
+
+Cada regla se implementa como una steering force individual, y al combinarse, producen comportamientos colectivos complejos y realistas.
 
 ## Actividad 3
 
@@ -62,3 +75,4 @@ Esta imagen me inspira bastante paz y calma se ve muy smooth me dan ganas de hac
 
 
 ## Autoevaluación
+

@@ -4,6 +4,7 @@
 ## Actividad 1
 
 <img width="747" height="595" alt="image" src="https://github.com/user-attachments/assets/45f576f0-b6f3-4874-b443-c86b5757a581" />
+<img width="752" height="743" alt="image" src="https://github.com/user-attachments/assets/c03e2902-57be-4e48-bf6d-80e7693d81e5" />
 
 Esta imagen me inspira bastante paz y calma se ve muy smooth me dan ganas de hacer algo parecido pero que el color vaya variando de forma gradual y hacer que se sienta vivo
 
@@ -97,5 +98,6 @@ Efecto observado: Al cambiar la generación del campo de noise() a funciones tri
 
 
 ## Autoevaluación
+
 
 

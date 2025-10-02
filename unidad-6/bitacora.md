@@ -530,6 +530,10 @@ https://editor.p5js.org/DaviSlime/sketches/Sg8WoxC2U
 ## Autoevaluación
 
 
+**Rúbrica de evaluación del proceso**
+
+5: realicé las 5 actividades completas, me esmere en entender los conceptos propuestos y logre hacer una obra de arte como queria creo que merezcon una nota de 5 ya que todo esta competado y los mas imprtante logre interiorizar los conceptos.
+
 
 
 

@@ -201,6 +201,10 @@ separate(boids) {
 
 Decidi hacer como una variacion de un doble flujo independientes entre si para mostrar una dualidad en una cancion donde yo tengo el control de cuando se muestra cada parte de la dualidad
 
+<img width="1480" height="1920" alt="boceto" src="https://github.com/user-attachments/assets/a57ed236-08cc-4944-b1db-ab0533b989ba" />
+
+
+
 2. **El código fuente completo de tu sketch en p5.js.**
 
 ```js
@@ -524,6 +528,7 @@ https://editor.p5js.org/DaviSlime/sketches/Sg8WoxC2U
 <img width="850" height="742" alt="image" src="https://github.com/user-attachments/assets/57ed7b48-ad59-438d-b343-932f6ddb5393" />
 
 ## Autoevaluación
+
 
 
 

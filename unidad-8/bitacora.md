@@ -340,3 +340,10 @@ https://editor.p5js.org/DaviSlime/sketches/O2r94jZJX
 
 <img width="1444" height="771" alt="image" src="https://github.com/user-attachments/assets/de0000f8-898b-4072-b443-d3aa95fc5ddf" />
 
+
+
+
+
+# AUTOEVALUACION
+
+5 porque complete todas las asignaciones

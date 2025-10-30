@@ -20,38 +20,83 @@ la senascion que genera es una sensacion de exclusividad ya que esas mismas visu
 
 1. La pieza musical elegida (con enlace/archivo si es posible).
 
-    [Margarita Siempre Viva - Los Días Apacibles](https://youtu.be/1ObzXAahwnM?si=bsHvWoLMnNEWw_A3)
+    [Imagine Dragons - Whatever It Takes]([https://youtu.be/1ObzXAahwnM?si=bsHvWoLMnNEWw_A3](https://youtu.be/UsuF4jJ4sgA?si=P9r_vIlUd-gPygkx))
 
+Esta canción combina energía, intensidad rítmica y una atmósfera motivacional que se traduce visualmente en un viaje de fuerza y superación. Su estructura con bajos potentes y crescendos marcados la hace ideal para generar una experiencia inmersiva y visualmente dinámica.
 
 2. La descripción de tu concepto visual.
 
-    La idea del conceto visual es mostrar unas margaritas generadas en tiempo real mientras yo creo dibujos que representan lo que se va a mostrar es decir dibujar en tiempo real formas y figuras que se plasmen en forma de margaritas siempre vivas asi como el nombre de la banda, tambien genrar una especie de lineas que vibren con el sonido y cambien de tamaño como las flores. 
+El visualizador está inspirado en la idea de atravesar un túnel de energía al ritmo de la música, simbolizando el proceso de transformación interna que evoca la canción.
+El espectador “viaja” a través de un espacio tridimensional lleno de partículas luminosas que se desplazan hacia la cámara, dando la sensación de velocidad, expansión y trascendencia.
+
+El centro del túnel representa el corazón de la energía musical, donde los beats y frecuencias bajas generan pulsaciones y explosiones visuales que responden directamente a la intensidad sonora.
+El uso del color dinámico (basado en el espectro HSB) refuerza la emoción de cada momento, creando una sinestesia entre sonido y movimiento.
+
+En resumen, el concepto busca visualizar la fuerza interior que impulsa a seguir adelante, exactamente como transmite la canción “Whatever It Takes”.
 
 3. Los inputs seleccionados y la justificación de por qué los elegiste.
 
 los imputs que yo decidi utilizar son:
 
-* El audio
-* Un slider para cambiar el tamaño de las formas
-* Una tecla para cambiar el color de las lineas aleatoriamente
-* un pad para dibujar las formas y figuras que se muestran
+os inputs que se implementaron son:
+
+Carga de archivo de audio (input type="file")
+→ Permite al usuario seleccionar cualquier canción desde su dispositivo, fomentando la personalización de la experiencia sonora.
+
+Botones WASD
+→ Permiten moverse ligeramente dentro del espacio 3D, brindando control y exploración del entorno, simulando la sensación de pilotar a través del túnel.
+
+Slider de sensibilidad
+→ Ajusta cuán fuerte reaccionan las partículas y los anillos ante los cambios de frecuencia, permitiendo adaptar la visualización a diferentes estilos de música.
+
+Slider de velocidad
+→ Modifica la rapidez con que las partículas y los anillos se desplazan, afectando la percepción de profundidad y dinamismo.
+
+Botón “E” (Explosión visual)
+→ Genera un estallido de partículas desde el centro del túnel, sincronizado con el beat o a voluntad del usuario. Representa un clímax energético dentro de la experiencia.
+
+Estos controles permiten que el usuario no solo sea espectador, sino parte activa de la composición visual, ajustando la experiencia según su gusto y ritmo emocional
 
 4. ¿Qué algoritmos o técnicas planeas usar (ej: flow fields, flocking, física, partículas, etc.) y por qué?
 
+El proyecto utiliza una combinación de sistemas de partículas y efectos de profundidad en 3D, optimizados con p5.js y WebGL:
 
+Sistema de partículas:
+Cada partícula tiene su propia posición, velocidad y color que varía según la energía del audio. Esto crea la ilusión de materia luminosa que se acerca al espectador.
+
+Anillos concéntricos:
+Simulan un túnel tridimensional que se mueve hacia la cámara, reforzando la sensación de avance y continuidad.
+
+Análisis de frecuencia (FFT y Amplitude):
+Permite que el movimiento y color de los elementos reaccionen directamente al espectro sonoro, creando una conexión visual-auditiva real.
+
+Explosión procedural:
+Se activa mediante el teclado y genera una expansión temporal de las partículas, logrando un efecto de energía liberada desde el centro.
+
+Controles interactivos (WASD y sliders):
+Añaden una capa de interacción lúdica, donde el usuario puede modificar parámetros en tiempo real, dando un toque performativo.
 
 5. Tus bocetos y una explicación de cómo los inputs influirán en los visuales.
 
 
 
 
-Prompt:
+Archivo de audio (input de canción):
+El archivo cargado determina por completo la respuesta visual. El análisis de frecuencias (FFT) extrae datos de bajos, medios y agudos, que influyen en el color, tamaño y velocidad de las partículas. Así, cada canción genera una interpretación visual única.
 
-Necesito que me ayudes a "tocar" una cancion en vivo dime en donde lo podemos a hacer y como podemos hacer para que se visualice, te voy a explicar lo que quiero hacer y te te voy a dar referentes parecidos a lo que quiero, luego tu me diras en que sofware lo podemos hacer y ya negociamos asi que vamos, quiero mostrar unas visuales que acompañen una cancion que vibren al ritmo de la musica pero que yo tenga el control absoluto de como se va a visualizar, lo que quiero es que yo pueda dibujar en una zona aparte de donde se presenta ciertas lineas y que el codigo lo interprete y haga movimientos con estas lineas y creee margaritas ya que la cancion es de margarita siempre viva mas especificamente "los dias apacibles" quiero poder generar en tiempo real unas visuales a esta cancion, que cuando yo dibuje algo en una pantallita abajo se muestre en formas de margaritas, ademas de unas lineas que aparecen gracias a los bajos que se mueven con flow fields es decir como en orden pero uno aleatorio, tambien que con la letra "c" se pueda cambiar el color de estas lineas a uno aleatorio, ademas de eso quisiera tener un slider que me permita cambiar el tamaño de las margaritas aumentarlo o reducirle el tamaño y una parte esencial es que tanto las margaritas como las lineas aleatorias vibren al ritmo de la musica, toma de referencia estos ejemplos:
+Slider de sensibilidad:
+Controla cuánto responden las partículas y los anillos a la energía del sonido.
+→ A mayor sensibilidad, los movimientos son más intensos y los colores cambian con mayor frecuencia.
+→ A menor sensibilidad, el movimiento se suaviza, logrando un efecto más atmosférico.
 
-- Blog de Alba G. Corral: https://blog.albagcorral.com/ (navega por sus proyectos).
-- Sónar+D CCCB 2020: Carles Viarnès & Alba G. Corral 360º AV Show
-- Le Parody & Alba G. Corral: En directo en el Teatro Principal de Zaragoza
-- Dimension N: Alba G Corral & Makaruk - Performance at Festival des Bains Numeriques #9
+Slider de velocidad:
+Ajusta la velocidad de desplazamiento del túnel y de las partículas hacia la cámara.
+Esto modifica la sensación de profundidad y la intensidad del viaje visual — valores altos generan una experiencia más energética, mientras que valores bajos la vuelven más relajada.
 
-tambien quiero que me digas ¿Qué algoritmos o técnicas planeas usar (ej: flow fields, flocking, física, partículas, etc.) y por qué? todo esto antes de empezar a genrear el codigo.
+Botones WASD:
+Permiten al usuario desplazarse ligeramente dentro del espacio 3D.
+Este control brinda una sensación de exploración y libertad, haciendo que el usuario “vuele” dentro del túnel y sienta que lo atraviesa desde diferentes ángulos.
+
+Botón “E” (explosión):
+Provoca un estallido visual de partículas desde el centro, simulando una liberación de energía que reacciona tanto a la música como a la acción del usuario.
+Representa un punto de clímax o énfasis emocional dentro de la experiencia, sincronizado con los beats o los momentos más intensos de la canción.

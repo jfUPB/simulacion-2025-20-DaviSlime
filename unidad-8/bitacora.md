@@ -78,6 +78,7 @@ Añaden una capa de interacción lúdica, donde el usuario puede modificar pará
 
 5. Tus bocetos y una explicación de cómo los inputs influirán en los visuales.
 
+<img width="1480" height="1920" alt="boceto final" src="https://github.com/user-attachments/assets/17f73fd3-5c4d-4994-b9ab-b0e2c15736b0" />
 
 
 
@@ -338,3 +339,4 @@ https://editor.p5js.org/DaviSlime/sketches/O2r94jZJX
 3. Capturas de pantalla mostrando tu pieza en acción.
 
 <img width="1444" height="771" alt="image" src="https://github.com/user-attachments/assets/de0000f8-898b-4072-b443-d3aa95fc5ddf" />
+
